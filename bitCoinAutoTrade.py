@@ -1,18 +1,9 @@
 import time
 import pyupbit
 import datetime
-import requests
 
 access = "dZWTThOKBIDlTXutNuFgTSQSBJxTJhQ83W03iyxs"
 secret = "HEWRGm9rfV43x7j4rM2s48JGnj05K7sKwEVoQaGh"
-myToken = "xoxb-1994731863174-2014475700113-QzNtNc1IKmLkfneDPKinAqbQ"
-
-def post_message(token, channel, text):
-    """슬랙 메시지 전송"""
-    response = requests.post("https://slack.com/api/chat.postMessage",
-        headers={"Authorization": "Bearer "+token},
-        data={"channel": channel,"text": text}
-    )
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
@@ -43,7 +34,6 @@ def get_current_price(ticker):
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
-post_message(myToken,"#test", "autotrade start")
 
 lp = 1.02
 bisSelled = False
@@ -61,7 +51,6 @@ while True:
                 krw = get_balance("KRW")
                 if krw > 5000:                    
                     upbit.buy_market_order("KRW-BTC", krw*0.9995)
-                    post_message(myToken,"#test", "BTC buy : " +str(buy_result))
                 else:
                     downLimitPrice = target_price * (lp-0.02)
                     upLimitPrice = target_price * lp                    
@@ -69,18 +58,17 @@ while True:
                         lp = lp + 0.02
                     elif downLimitPrice > current_price and countCrossLimit > 0:
                         bisSelled = True
+                        lp = 1.02
                         btc = get_balance("BTC")
                         if btc > 0.00008:
                             upbit.sell_market_order("KRW-BTC", btc*0.9995)
-                            post_message(myToken,"#test", "BTC buy : " +str(sell_result))
         else:
             bisSelled = False
+            lp = 1.02
             btc = get_balance("BTC")
             if btc > 0.00008:
                 upbit.sell_market_order("KRW-BTC", btc*0.9995)
-                post_message(myToken,"#test", "BTC buy : " +str(sell_result))
         time.sleep(1)
     except Exception as e:
         print(e)
-        post_message(myToken,"#test", e)
         time.sleep(1)
