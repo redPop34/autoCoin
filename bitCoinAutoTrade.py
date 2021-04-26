@@ -56,7 +56,7 @@ while True:
                     upLimitPrice = target_price * lp                    
                     if upLimitPrice < current_price:
                         lp = lp + 0.02
-                    elif downLimitPrice > current_price and countCrossLimit > 0:
+                    elif downLimitPrice > current_price and lp > 1.02:
                         bisSelled = True
                         lp = 1.02
                         btc = get_balance("BTC")
