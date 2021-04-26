@@ -5,7 +5,7 @@ import requests
 
 access = "dZWTThOKBIDlTXutNuFgTSQSBJxTJhQ83W03iyxs"
 secret = "HEWRGm9rfV43x7j4rM2s48JGnj05K7sKwEVoQaGh"
-myToken = "xoxb-1994731863174-2007695050852-LcNmehn3tLEYpnuc9qZ911yR"
+myToken = "xoxb-1994731863174-2014475700113-QzNtNc1IKmLkfneDPKinAqbQ"
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -64,13 +64,12 @@ while True:
                     upbit.buy_market_order("KRW-BTC", krw*0.9995)
                     post_message(myToken,"#test", "BTC buy : " +str(buy_result))
                 else:
-                    limitPrice = target_price * lp                    
-                    if limitPrice < current_price:
-                        beforeLimitPrice = limitPrice
-                        countCrossLimit = 1
-                        lp = 1 + (0.02*countCrossLimit)
-                        limitPrice = target_price * (lp)
-                    elif limitPrice > current_price and countCrossLimit > 0:
+                    downLimitPrice = target_price * (lp-0.02)
+                    upLimitPrice = target_price * lp                    
+                    if upLimitPrice < current_price:
+                        countCrossLimit = countCrossLimit + 1
+                        lp = lp + (0.02*countCrossLimit)
+                    elif downLimitPrice > current_price and countCrossLimit > 0:
                         bisSelled = True
                         btc = get_balance("BTC")
                         if btc > 0.00008:
