@@ -47,7 +47,6 @@ post_message(myToken,"#test", "autotrade start")
 
 lp = 1.02
 bisSelled = False
-countCrossLimit = 0
 # 자동매매 시작
 while True:
     try:
@@ -67,8 +66,7 @@ while True:
                     downLimitPrice = target_price * (lp-0.02)
                     upLimitPrice = target_price * lp                    
                     if upLimitPrice < current_price:
-                        countCrossLimit = countCrossLimit + 1
-                        lp = lp + (0.02*countCrossLimit)
+                        lp = lp + 0.02
                     elif downLimitPrice > current_price and countCrossLimit > 0:
                         bisSelled = True
                         btc = get_balance("BTC")
