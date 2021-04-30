@@ -54,7 +54,6 @@ logger.addHandler(file_handler)
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
 logger.info("autotrade start")
-print("autotrade start")
 
 lp = 1.02
 bisSelled = True
@@ -66,25 +65,23 @@ while True:
         now = datetime.datetime.now()
         start_time = get_start_time("KRW-BTC")
         end_time = start_time + datetime.timedelta(days=1)
-        logger.info("start_time" + str(start_time))
-        print("start_time" + str(start_time))
-
+        logger.info("start_time" + str(start_time))        
+        logger.info("start_time" + str(now)) 
+        logger.info("start_time" + str(end_time)) 
+        
         if start_time < now < end_time - datetime.timedelta(seconds=10):
+            logger.info("start")
             target_price = get_target_price("KRW-BTC", 0.5)
             current_price = get_current_price("KRW-BTC")
             logger.info("target_price : " + target_price)
             logger.info("current_price : " + current_price)
-            print("target_price : " + target_price)
-            print("current_price : " + current_price)
 
             if target_price < current_price and bisSelled == False:
                 logger.info("cross price")
-                print("cross price")
                 krw = get_balance("KRW")
                 if krw > 5000 and bisFinished == False:                    
                     upbit.buy_market_order("KRW-BTC", krw*0.9995)
                     logger.info("buy BTC")
-                    print("buy BTC")
                     sleepTime = 5
                 else:
                     bisFinished = True
@@ -100,7 +97,6 @@ while True:
                         if btc > 0.00008:
                             upbit.sell_market_order("KRW-BTC", btc*0.9995)
                             logger.info("sell BTC")
-                            print("sell BTC")
         else:
             bisSelled = False
             bisFinished = False
@@ -110,7 +106,6 @@ while True:
             if btc > 0.00008:
                 upbit.sell_market_order("KRW-BTC", btc*0.9995)
                 logger.info("sell BTC adn New Day")
-                print("sell BTC adn New Day")
         time.sleep(sleepTime)
         
     except Exception as e:
