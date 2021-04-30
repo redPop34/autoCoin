@@ -65,16 +65,11 @@ while True:
         now = datetime.datetime.now()
         start_time = get_start_time("KRW-BTC")
         end_time = start_time + datetime.timedelta(days=1)
-        logger.info("start_time" + str(start_time))        
-        logger.info("start_time" + str(now)) 
-        logger.info("start_time" + str(end_time)) 
         
         if start_time < now < end_time - datetime.timedelta(seconds=10):
             logger.info("start")
             target_price = get_target_price("KRW-BTC", 0.5)
             current_price = get_current_price("KRW-BTC")
-            logger.info("target_price : " + target_price)
-            logger.info("current_price : " + current_price)
 
             if target_price < current_price and bisSelled == False:
                 logger.info("cross price")
