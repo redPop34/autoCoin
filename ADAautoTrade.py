@@ -47,7 +47,7 @@ stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
 # log를 파일에 출력
-file_handler = logging.FileHandler('BTC.log')
+file_handler = logging.FileHandler('ADA.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
@@ -63,19 +63,19 @@ bisFinished = False
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-BTC")
+        start_time = get_start_time("KRW-ADA")
         end_time = start_time + datetime.timedelta(days=1)
         
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-BTC", 0.5)
-            current_price = get_current_price("KRW-BTC")
+            target_price = get_target_price("KRW-ADA", 0.5)
+            current_price = get_current_price("KRW-ADA")
 
             if target_price < current_price and bisSelled == False:
                 logger.info("cross price")
                 krw = get_balance("KRW")
                 if krw > 5000 and bisFinished == False:                    
-                    upbit.buy_market_order("KRW-BTC", krw*0.9995)
-                    logger.info("buy BTC")
+                    upbit.buy_market_order("KRW-ADA", krw*0.9995)
+                    logger.info("buy ADA")
                     sleepTime = 3
                 else:
                     bisFinished = True
@@ -87,19 +87,19 @@ while True:
                         bisSelled = True
                         lp = 1.02
                         sleepTime = 1
-                        btc = get_balance("BTC")
+                        btc = get_balance("ADA")
                         if btc > 0.00008:
-                            upbit.sell_market_order("KRW-BTC", btc*0.9995)
-                            logger.info("sell BTC")
+                            upbit.sell_market_order("KRW-ADA", btc*0.9995)
+                            logger.info("sell ADA")
         else:
             bisSelled = False
             bisFinished = False
             sleepTime = 1
             lp = 1.02
-            btc = get_balance("BTC")
+            btc = get_balance("ADA")
             if btc > 0.00008:
-                upbit.sell_market_order("KRW-BTC", btc*0.9995)
-                logger.info("sell BTC adn New Day")
+                upbit.sell_market_order("KRW-ADA", btc*0.9995)
+                logger.info("sell ADA adn New Day")
         time.sleep(sleepTime)
         
     except Exception as e:
