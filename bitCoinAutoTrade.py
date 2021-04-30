@@ -90,7 +90,7 @@ while True:
                     upLimitPrice = target_price * lp                    
                     if upLimitPrice < current_price:
                         lp = lp + 0.02
-                    elif downLimitPrice > current_price and lp > 1.02:
+                    elif downLimitPrice > current_price and float(lp) > 1.02:
                         bisSelled = True
                         lp = 1.02
                         sleepTime = 1
