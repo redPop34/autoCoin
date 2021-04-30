@@ -67,7 +67,6 @@ while True:
         end_time = start_time + datetime.timedelta(days=1)
         
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            logger.info("start")
             target_price = get_target_price("KRW-BTC", 0.5)
             current_price = get_current_price("KRW-BTC")
 
@@ -77,7 +76,7 @@ while True:
                 if krw > 5000 and bisFinished == False:                    
                     upbit.buy_market_order("KRW-BTC", krw*0.9995)
                     logger.info("buy BTC")
-                    sleepTime = 5
+                    sleepTime = 3
                 else:
                     bisFinished = True
                     downLimitPrice = target_price * (lp-0.02)
