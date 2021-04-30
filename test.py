@@ -22,6 +22,9 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 lp = 1.04
-if lp > 1.02:
-    logger.
+upprice = 354*lp
+downprice = 354*(lp-0.02)
+nowprice = 363
+if upprice > nowprice > downprice and lp > 1.02:
+    logger.info("good")
 
