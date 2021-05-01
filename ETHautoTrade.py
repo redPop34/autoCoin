@@ -70,10 +70,9 @@ while True:
             target_price = get_target_price("KRW-ETH", 0.5)
             current_price = get_current_price("KRW-ETH")
 
-            if target_price < current_price and bisSelled == False:
-                logger.info("cross price")
+            if float(target_price) < float(current_price) and bisSelled == False:
                 krw = get_balance("KRW")
-                if krw > 5000 and bisFinished == False:                    
+                if float(krw) > 5000.0 and bisFinished == False:
                     upbit.buy_market_order("KRW-ETH", krw*0.9995)
                     logger.info("buy ETH")
                     sleepTime = 3
@@ -88,7 +87,7 @@ while True:
                         lp = 1.02
                         sleepTime = 1
                         btc = get_balance("ETH")
-                        if btc > 0.00008:
+                        if float(btc) > 0.00008:
                             upbit.sell_market_order("KRW-ETH", btc*0.9995)
                             logger.info("sell ETH")
         else:
@@ -97,7 +96,7 @@ while True:
             sleepTime = 1
             lp = 1.02
             btc = get_balance("ETH")
-            if btc > 0.00008:
+            if float(btc) > 0.00008:
                 upbit.sell_market_order("KRW-ETH", btc*0.9995)
                 logger.info("sell ETH adn New Day")
         time.sleep(sleepTime)
