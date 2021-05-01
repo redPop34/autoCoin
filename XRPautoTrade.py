@@ -47,7 +47,7 @@ stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
 # log를 파일에 출력
-file_handler = logging.FileHandler('XRP.log')
+file_handler = logging.FileHandler('DOGE.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
@@ -63,19 +63,18 @@ bisFinished = False
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-XRP")
+        start_time = get_start_time("KRW-DOGE")
         end_time = start_time + datetime.timedelta(days=1)
         
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-XRP", 0.5)
-            current_price = get_current_price("KRW-XRP")
+            target_price = get_target_price("KRW-DOGE", 0.5)
+            current_price = get_current_price("KRW-DOGE")
 
-            if target_price < current_price and bisSelled == False:
-                logger.info("cross price")
+            if float(target_price) < float(current_price) and bisSelled == False:
                 krw = get_balance("KRW")
-                if krw > 5000 and bisFinished == False:                    
-                    upbit.buy_market_order("KRW-XRP", krw*0.9995)
-                    logger.info("buy XRP")
+                if float(krw) > 5000.0 and bisFinished == False:
+                    upbit.buy_market_order("KRW-DOGE", krw*0.9995)
+                    logger.info("buy DOGE")
                     sleepTime = 3
                 else:
                     bisFinished = True
@@ -87,19 +86,19 @@ while True:
                         bisSelled = True
                         lp = 1.02
                         sleepTime = 1
-                        btc = get_balance("XRP")
-                        if btc > 0.00008:
-                            upbit.sell_market_order("KRW-XRP", btc*0.9995)
-                            logger.info("sell XRP")
+                        btc = get_balance("DOGE")
+                        if float(btc) > 0.00008:
+                            upbit.sell_market_order("KRW-DOGE", btc*0.9995)
+                            logger.info("sell DOGE")
         else:
             bisSelled = False
             bisFinished = False
             sleepTime = 1
             lp = 1.02
-            btc = get_balance("XRP")
-            if btc > 0.00008:
-                upbit.sell_market_order("KRW-XRP", btc*0.9995)
-                logger.info("sell XRP adn New Day")
+            btc = get_balance("DOGE")
+            if float(btc) > 0.00008:
+                upbit.sell_market_order("KRW-DOGE", btc*0.9995)
+                logger.info("sell DOGE adn New Day")
         time.sleep(sleepTime)
         
     except Exception as e:
